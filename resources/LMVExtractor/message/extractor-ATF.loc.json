@@ -1,0 +1,14 @@
+{
+    "@@locale": "en",
+    "@@context": "Error Messages from ATF",
+    "ATF-1008": "Error: {0}",
+    "ATF-1023": "The file: {0} does not exist.",
+    "ATF-1024": "The Version of the file: {0} is not supported.",
+    "ATF-1025": "The file: {0} is corrupt or invalid.",
+    "ATF-1026": "The file: {0} is empty.",
+    "ATF-1028": "Fail to load Component: {0}.",
+    "ATF-1031": "Unauthorized File Type.",
+    "ATF-1032": "Assembly feature is lost.",
+    "ATF-1033": "Entity in the file: {0} is not supported.",
+    "ATF-1034": "The file name: {0} is invalid."
+}
