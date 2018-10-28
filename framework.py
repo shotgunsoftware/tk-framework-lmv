@@ -39,8 +39,8 @@ class ATFFramework(sgtk.platform.Framework):
 
         return translation.translate()
 
-    def get_thumbnail_data(self, group_name, path):
+    def get_thumbnail_data(self, group_name, path, svf_path=None):
         resources_dir = os.path.join(self.disk_location, "resources")
         translation = self.import_module("translation").ATFTranslator(group_name, path, resources_dir)
 
-        return translation.get_thumbnail_data()
+        return translation.get_thumbnail_data(svf_path)

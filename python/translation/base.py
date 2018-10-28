@@ -16,9 +16,9 @@ class ATFTranslator(object):
 
         return translator.translate()
 
-    def get_thumbnail_data(self):
+    def get_thumbnail_data(self, svf_path=None):
         if self.group_name == "alias":
-            translator = AliasTranslator(self.path, self.resources_dir)
+            translator = AliasTranslator(self.path, self.resources_dir, svf_path)
         elif self.group_name == "vred":
             translator = VREDTranslator(self.path, self.resources_dir)
 
