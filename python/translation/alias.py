@@ -56,14 +56,14 @@ class AliasTranslator(object):
             os.makedirs(images_tmp_path)
 
         # Execute translation command
-        command = [translator, self.svf_path, '-outpath=' + images_tmp_path, '-size=2560', '-depth=4']
+        command = [translator, self.svf_path, '-outpath=' + images_tmp_path, '-size=1280', '-depth=2']
         command_line_process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         process_output, _ = command_line_process.communicate()
 
         if command_line_process.returncode != 0:
             raise Exception(process_output)
         
-        images_file_path = os.path.join(images_tmp_path, '01_thumb_2560x2560.png')
+        images_file_path = os.path.join(images_tmp_path, '01_thumb_1280x1280.png')
         
         with open(images_file_path, "rb") as fh:
             data = fh.read()
