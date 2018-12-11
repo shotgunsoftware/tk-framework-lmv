@@ -56,7 +56,7 @@ class AliasTranslator(object):
             os.makedirs(images_tmp_path)
 
         # Execute translation command
-        command = [translator, self.svf_path, '-outpath=' + images_tmp_path, '-size=1280', '-depth=2']
+        command = [translator, self.svf_path, '-outpath=' + images_tmp_path, '-size=1280', '-depth=2', '-passes=4']
         command_line_process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         process_output, _ = command_line_process.communicate()
 
