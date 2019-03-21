@@ -77,9 +77,12 @@ class AliasTranslator(object):
             with open(self.path) as src_file:
                 line = src_file.readline()
     
-                while line != "thumbnail JPEG\n":
+                while line and line != "thumbnail JPEG\n":
                     line = src_file.readline()
-    
+
+                if not line:
+                    return self._get_svf_thumbnail()
+
                 line = src_file.readline()
     
                 data = []
