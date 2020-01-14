@@ -27,7 +27,6 @@ class LMVTranslator(object):
     def __init__(self, path):
         """
         Class constructor
-
         :param path: Path to the file we want to translate to LMV
         """
         self.source_path = path
@@ -37,9 +36,9 @@ class LMVTranslator(object):
     def translate(self, output_directory=None):
         """
         Run the translation to convert the file to LMV
-        :param output_path: Path to the directory we want to translate the file to. If no path is supplied, a temporary
-                            one will be used
-        :return: The path to the directory the LMV files have been written
+        :param output_directory: Path to the directory we want to translate the file to. If no path is supplied, a
+                                temporary one will be used
+        :return: The path to the directory the LMV files have been written to
         """
 
         self.output_directory = output_directory
@@ -75,7 +74,11 @@ class LMVTranslator(object):
 
     def package(self, svf_file_name=None, thumbnail_path=None):
         """
-        :return:
+        Package all the translated files into a zip file and extract the LMV thumbnail if needed
+        :param svf_file_name: If supplied, rename the svf file according to the given name
+        :param thumbnail_path: If supplied, use this thumbnail as LMV thumbnail. Otherwise, try to extract the thumbnail
+                               from the source file
+        :return: The path to the zip file and the path to the thumbnail shipped with the LMV file
         """
 
         if not self.output_directory or not os.path.isdir(self.output_directory):
@@ -110,7 +113,10 @@ class LMVTranslator(object):
 
     def extract_thumbnail(self, thumbnail_source_path=None):
         """
-        :return:
+        Extract the thumbnail from the source file
+        :param thumbnail_source_path: Optional path to the thumbnail we want to use as source image. If no path is
+                                      supplied by the user, try to extract the image from the source file
+        :return: The path to the LMV thumbnail
         """
 
         if not self.output_directory or not os.path.isdir(self.output_directory):
@@ -140,7 +146,8 @@ class LMVTranslator(object):
 
     def get_thumbnail_data(self):
         """
-        :return:
+        Get the thumbnail binary data
+        :return: The thumbnail binary data
         """
 
         _, ext = os.path.splitext(self.source_path)
@@ -157,7 +164,8 @@ class LMVTranslator(object):
 
     def __get_svf_path(self):
         """
-        :return:
+        Get the SFV file path according to the output directory
+        :return: The path to the SFV file
         """
 
         if not self.svf_path:
@@ -171,7 +179,8 @@ class LMVTranslator(object):
 
     def __get_thumbnail_data_from_command_line(self):
         """
-        :return:
+        Run the command line to get thumbnail data
+        :return: The thumbnail binary data
         """
 
         # get the command line to extract data from the thumbnail and execute it
@@ -190,7 +199,8 @@ class LMVTranslator(object):
 
     def __get_thumbnail_data_from_source_file(self):
         """
-        :return:
+        Read the source file data to extract the thumbnail binary data
+        :return: The thumbnail binary data
         """
 
         thumbnail_data = []
@@ -237,7 +247,10 @@ class LMVTranslator(object):
 
     def __get_thumbnail_extractor_command_line(self):
         """
+        Get the command line used to extract thumbnail data according to file extension as well as the output path
         :return:
+            - The command line and it arguments as a list
+            - The thumbnail output path
         """
 
         root_dir = _get_resources_folder_path()
@@ -285,7 +298,8 @@ class LMVTranslator(object):
 
 def _get_resources_folder_path():
     """
-    :return:
+    Get the resources folder path of the current framework
+    :return: The path to the resources folder
     """
     return os.path.normpath(
         os.path.join(
