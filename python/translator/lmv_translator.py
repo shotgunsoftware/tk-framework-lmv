@@ -214,11 +214,22 @@ class LMVTranslator(object):
         :return: The path to the translator
         """
 
+        current_engine = sgtk.platform.current_engine()
+
         root_dir = _get_resources_folder_path()
         _, ext = os.path.splitext(self.source_path)
 
+        # Alias case
         if ext in ALIAS_VALID_EXTENSION:
-            return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
+            if current_engine.name == "tk-alias":
+                software_extractor = os.path.join(current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe")
+                if os.path.exists(software_extractor):
+                    return software_extractor
+                else:
+                    return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
+            else:
+                return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
+
         elif ext in VRED_VALID_EXTENSION:
             return os.path.join(root_dir, "LMV", "viewing-vpb-lmv.exe")
         else:
