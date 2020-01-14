@@ -154,7 +154,7 @@ class LMVTranslator(object):
 
         # if the source file is a wire file, we can try to directly read the SVF file to get the thumbnail data
         if ext == ".wire":
-            thumbnail_data = self.__get_thumbnail_data_from_source_file()
+            thumbnail_data = self.__get_thumbnail_data_from_wire_file()
             if not thumbnail_data:
                 thumbnail_data = self.__get_thumbnail_data_from_command_line()
         else:
@@ -197,7 +197,7 @@ class LMVTranslator(object):
 
         return thumbnail_data
 
-    def __get_thumbnail_data_from_source_file(self):
+    def __get_thumbnail_data_from_wire_file(self):
         """
         Read the source file data to extract the thumbnail binary data
         :return: The thumbnail binary data
