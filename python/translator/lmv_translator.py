@@ -19,10 +19,6 @@ VRED_VALID_EXTENSION = [".vpb"]
 
 logger = sgtk.platform.get_logger(__name__)
 
-# import sys
-# sys.path.append(r"B:\Softwares\JetBrains\Toolbox\apps\PyCharm-P\ch-0\193.5662.61\debug-eggs\pydevd-pycharm.egg")
-# import pydevd_pycharm
-# pydevd_pycharm.settrace('localhost', port=12345, stdoutToServer=True, stderrToServer=True)
 
 class LMVTranslator(object):
     """
@@ -100,7 +96,7 @@ class LMVTranslator(object):
             svf_file_name = os.path.splitext(os.path.basename(self.source_path)[0])
 
         # extract the thumbnails
-        self.extract_thumbnails(thumbnail_path)
+        thumbnail_path = self.extract_thumbnail(thumbnail_path)
 
         # zip the package
         logger.debug("Making archive from LMV files")
@@ -110,9 +106,9 @@ class LMVTranslator(object):
             root_dir=output_dir_path
         )
 
-        return zip_path
+        return zip_path, thumbnail_path
 
-    def extract_thumbnails(self, thumbnail_source_path=None):
+    def extract_thumbnail(self, thumbnail_source_path=None):
         """
         :return:
         """
@@ -131,7 +127,7 @@ class LMVTranslator(object):
             thumbnail_data = self.get_thumbnail_data()
 
         # write the thumbnails on disk
-        logger.debug("Writing thumbnails on disk")
+        logger.debug("Writing thumbnail on disk")
         if thumbnail_data:
             images_dir_path = os.path.join(output_dir_path, "images")
             if not os.path.exists(images_dir_path):
@@ -139,11 +135,8 @@ class LMVTranslator(object):
             tmp_image_path = os.path.join(images_dir_path, "{}.jpg".format(svf_file_name))
             with open(tmp_image_path, "wb") as fp:
                 fp.write(thumbnail_data)
-            tmp_thumbnail_path = os.path.join(images_dir_path, "{}_thumb.jpg".format(svf_file_name))
-            with open(tmp_thumbnail_path, "wb") as fp:
-                fp.write(tmp_thumbnail_path)
 
-            return tmp_image_path, tmp_thumbnail_path
+            return tmp_image_path
 
     def get_thumbnail_data(self):
         """
