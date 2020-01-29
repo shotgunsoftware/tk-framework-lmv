@@ -14,7 +14,7 @@ import shutil
 import subprocess
 import tempfile
 
-ALIAS_VALID_EXTENSION = [".wire", ".CATPart", ".jt", ".igs", ".stp"]
+ALIAS_VALID_EXTENSION = [".wire", ".CATPart", ".jt", ".igs", ".stp", ".fbx"]
 VRED_VALID_EXTENSION = [".vpb"]
 
 logger = sgtk.platform.get_logger(__name__)
