@@ -206,14 +206,14 @@ class LMVTranslator(object):
         :return: The path to the SFV file
         """
 
-        if not self.svf_path:
+        if not self.__svf_path:
             svf_file_name = "{}.svf".format(os.path.splitext(os.path.basename(self.source_path))[0])
             svf_path = os.path.join(self.output_directory, "output", "1", svf_file_name)
             if not os.path.isfile(svf_path):
                 raise Exception("Couldn't find svf file %s" % svf_path)
             self.__svf_path = svf_path
 
-        return self.svf_path
+        return self.__svf_path
 
     def __get_thumbnail_data_from_command_line(self):
         """
