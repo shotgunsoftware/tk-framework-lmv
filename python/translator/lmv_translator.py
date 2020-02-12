@@ -14,28 +14,67 @@ import shutil
 import subprocess
 import tempfile
 
-ALIAS_VALID_EXTENSION = [".wire", ".CATPart", ".jt", ".igs", ".stp", ".fbx"]
-VRED_VALID_EXTENSION = [".vpb"]
-
 logger = sgtk.platform.get_logger(__name__)
 
 
 class LMVTranslator(object):
     """
+    A LMVTranslator instance is used to convert a file to LMV in order to have a file
+    readable by Autodesk Viewers. From the LMV file format, it's also possible to extract
+    a thumbnail from the source file.
     """
+
+    # file extensions that can be used by Alias tools to extract data
+    ALIAS_VALID_EXTENSION = [".wire", ".CATPart", ".jt", ".igs", ".stp", ".fbx"]
+
+    # file extensions that can be used by VRED tools to extract data
+    VRED_VALID_EXTENSION = [".vpb"]
 
     def __init__(self, path):
         """
         Class constructor
+
         :param path: Path to the file we want to translate to LMV
         """
-        self.source_path = path
-        self.output_directory = None
-        self.svf_path = None
+        self.__source_path = path
+        self.__output_directory = None
+        self.__svf_path = None
+
+    ################################################################################################
+    # properties
+
+    @property
+    def source_path(self):
+        """
+        The path to the source file which will be converted to LMV
+
+        :returns: The file path as a string
+        """
+        return self.__source_path
+
+    @property
+    def output_directory(self):
+        """
+        The path to the directory where all the LMV files will be extracted
+
+        :returns: The directory path as a string
+        """
+        return self.__output_directory
+
+    @property
+    def svf_path(self):
+        """
+        :returns: The file path as a string
+        """
+        return self.__svf_path
+
+    ################################################################################################
+    # public methods
 
     def translate(self, output_directory=None):
         """
         Run the translation to convert the file to LMV
+
         :param output_directory: Path to the directory we want to translate the file to. If no path is supplied, a
                                 temporary one will be used
         :return: The path to the directory the LMV files have been written to
@@ -75,6 +114,7 @@ class LMVTranslator(object):
     def package(self, svf_file_name=None, thumbnail_path=None):
         """
         Package all the translated files into a zip file and extract the LMV thumbnail if needed
+
         :param svf_file_name: If supplied, rename the svf file according to the given name
         :param thumbnail_path: If supplied, use this thumbnail as LMV thumbnail. Otherwise, try to extract the thumbnail
                                from the source file
@@ -114,6 +154,7 @@ class LMVTranslator(object):
     def extract_thumbnail(self, thumbnail_source_path=None):
         """
         Extract the thumbnail from the source file
+
         :param thumbnail_source_path: Optional path to the thumbnail we want to use as source image. If no path is
                                       supplied by the user, try to extract the image from the source file
         :return: The path to the LMV thumbnail
@@ -147,6 +188,7 @@ class LMVTranslator(object):
     def get_thumbnail_data(self):
         """
         Get the thumbnail binary data
+
         :return: The thumbnail binary data
         """
 
@@ -162,9 +204,13 @@ class LMVTranslator(object):
 
         return thumbnail_data
 
+    ########################################################################################
+    # private methods
+
     def __get_svf_path(self):
         """
         Get the SFV file path according to the output directory
+
         :return: The path to the SFV file
         """
 
@@ -180,6 +226,7 @@ class LMVTranslator(object):
     def __get_thumbnail_data_from_command_line(self):
         """
         Run the command line to get thumbnail data
+
         :return: The thumbnail binary data
         """
 
@@ -200,6 +247,7 @@ class LMVTranslator(object):
     def __get_thumbnail_data_from_wire_file(self):
         """
         Read the source file data to extract the thumbnail binary data
+
         :return: The thumbnail binary data
         """
 
@@ -221,6 +269,7 @@ class LMVTranslator(object):
     def __get_translator_path(self):
         """
         Get the path to the translator we have to use according to the file extension
+
         :return: The path to the translator
         """
 
@@ -230,7 +279,7 @@ class LMVTranslator(object):
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
-        if ext in ALIAS_VALID_EXTENSION:
+        if ext in self.ALIAS_VALID_EXTENSION:
             if current_engine.name == "tk-alias":
                 software_extractor = os.path.join(current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe")
                 if os.path.exists(software_extractor):
@@ -240,7 +289,7 @@ class LMVTranslator(object):
             else:
                 return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
-        elif ext in VRED_VALID_EXTENSION:
+        elif ext in self.VRED_VALID_EXTENSION:
             return os.path.join(root_dir, "LMV", "viewing-vpb-lmv.exe")
         else:
             raise ValueError("Couldn't find translator path: unknown file extension")
@@ -248,6 +297,7 @@ class LMVTranslator(object):
     def __get_thumbnail_extractor_command_line(self):
         """
         Get the command line used to extract thumbnail data according to file extension as well as the output path
+
         :return:
             - The command line and it arguments as a list
             - The thumbnail output path
@@ -257,7 +307,7 @@ class LMVTranslator(object):
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
-        if ext in ALIAS_VALID_EXTENSION:
+        if ext in self.ALIAS_VALID_EXTENSION:
             svf_path = self.__get_svf_path()
             tmp_dir = os.path.normpath(
                 os.path.join(
@@ -281,7 +331,7 @@ class LMVTranslator(object):
             output_path = os.path.join(tmp_dir, "01_thumb_1280x1280.png")
 
         # VRED case
-        elif ext in VRED_VALID_EXTENSION:
+        elif ext in self.VRED_VALID_EXTENSION:
             output_path = tempfile.NamedTemporaryFile(suffix=".jpg", prefix="sgtk_thumb", delete=False).name
             cmd = [
                 os.path.join(root_dir, "VREDThumbnailExtractor", "extractMetaData.exe"),
@@ -299,6 +349,7 @@ class LMVTranslator(object):
 def _get_resources_folder_path():
     """
     Get the resources folder path of the current framework
+
     :return: The path to the resources folder
     """
     return os.path.normpath(
