@@ -19,9 +19,8 @@ logger = sgtk.platform.get_logger(__name__)
 
 class LMVTranslator(object):
     """
-    A LMVTranslator instance is used to convert a file to LMV in order to have a file
-    readable by Autodesk Viewers. From the LMV file format, it's also possible to extract
-    a thumbnail from the source file.
+    A LMVTranslator instance is used to translate a source file to something readable by Shotgun 3D Viewer.
+    It also offers the possibility to extract a thumbnail from this source file.
     """
 
     # file extensions that can be used by Alias tools to extract data
@@ -34,7 +33,7 @@ class LMVTranslator(object):
         """
         Class constructor
 
-        :param path: Path to the file we want to translate to LMV
+        :param path: Path to the source file we want to perform operations on.
         """
         self.__source_path = path
         self.__output_directory = None
@@ -46,7 +45,7 @@ class LMVTranslator(object):
     @property
     def source_path(self):
         """
-        The path to the source file which will be converted to LMV
+        Path of the file used as source for all the translations.
 
         :returns: The file path as a string
         """
@@ -55,39 +54,32 @@ class LMVTranslator(object):
     @property
     def output_directory(self):
         """
-        The path to the directory where all the LMV files will be extracted
+        Path to the directory where all the translated files will be stored.
 
         :returns: The directory path as a string
         """
         return self.__output_directory
-
-    @property
-    def svf_path(self):
-        """
-        :returns: The file path as a string
-        """
-        return self.__svf_path
 
     ################################################################################################
     # public methods
 
     def translate(self, output_directory=None):
         """
-        Run the translation to convert the file to LMV
+        Run the translation to convert the source file to a bunch of files needed by the 3D Viewer.
 
         :param output_directory: Path to the directory we want to translate the file to. If no path is supplied, a
                                 temporary one will be used
-        :return: The path to the directory the LMV files have been written to
+        :returns: The path to the directory where all the translated files have been written.
         """
 
-        self.output_directory = output_directory
+        self.__output_directory = output_directory
 
         # get the translator path
         translator_path = self.__get_translator_path()
 
         if self.output_directory is None:
             # generate all the files and folders needed for the translation
-            self.output_directory = tempfile.mkdtemp(prefix="lmv_")
+            self.__output_directory = tempfile.mkdtemp(prefix="lmv_")
         output_path = os.path.join(self.output_directory, os.path.basename(self.source_path))
 
         index_file_path = os.path.join(self.output_directory, "index.json")
@@ -134,7 +126,7 @@ class LMVTranslator(object):
             if os.path.isfile(target_path):
                 raise Exception("Couldn't rename svf file: target path %s already exists" % target_path)
             os.rename(source_path, target_path)
-            self.svf_path = target_path
+            self.__svf_path = target_path
         else:
             svf_file_name = os.path.splitext(os.path.basename(self.source_path)[0])
 
@@ -219,7 +211,7 @@ class LMVTranslator(object):
             svf_path = os.path.join(self.output_directory, "output", "1", svf_file_name)
             if not os.path.isfile(svf_path):
                 raise Exception("Couldn't find svf file %s" % svf_path)
-            self.svf_path = svf_path
+            self.__svf_path = svf_path
 
         return self.svf_path
 
@@ -270,16 +262,19 @@ class LMVTranslator(object):
         """
         Get the path to the translator we have to use according to the file extension
 
-        :return: The path to the translator
+        :returns: The path to the translator
         """
 
         current_engine = sgtk.platform.current_engine()
 
-        root_dir = _get_resources_folder_path()
+        root_dir = self.__get_resources_folder_path()
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
         if ext in self.ALIAS_VALID_EXTENSION:
+
+            # if we are running this code inside Alias, use the Alias extractor instead of the one shipped with this
+            # framework to be sure to use the latest version
             if current_engine.name == "tk-alias":
                 software_extractor = os.path.join(current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe")
                 if os.path.exists(software_extractor):
@@ -289,8 +284,11 @@ class LMVTranslator(object):
             else:
                 return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
+        # VRED case
         elif ext in self.VRED_VALID_EXTENSION:
             return os.path.join(root_dir, "LMV", "viewing-vpb-lmv.exe")
+
+        # other file formats
         else:
             raise ValueError("Couldn't find translator path: unknown file extension")
 
@@ -298,12 +296,12 @@ class LMVTranslator(object):
         """
         Get the command line used to extract thumbnail data according to file extension as well as the output path
 
-        :return:
+        :returns:
             - The command line and it arguments as a list
             - The thumbnail output path
         """
 
-        root_dir = _get_resources_folder_path()
+        root_dir = self.__get_resources_folder_path
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
@@ -345,18 +343,18 @@ class LMVTranslator(object):
 
         return cmd, output_path
 
+    @staticmethod
+    def __get_resources_folder_path():
+        """
+        Get the resources folder path of the current framework
 
-def _get_resources_folder_path():
-    """
-    Get the resources folder path of the current framework
-
-    :return: The path to the resources folder
-    """
-    return os.path.normpath(
-        os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "..",
-            "..",
-            "resources"
+        :return: The path to the resources folder
+        """
+        return os.path.normpath(
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)),
+                "..",
+                "..",
+                "resources"
+            )
         )
-    )
