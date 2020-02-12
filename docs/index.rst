@@ -14,7 +14,7 @@ field and the ``sg_translation_type`` must be set to **LMV**.
 
 .. warning::
     The zip file should be named after the Version ID for the 3D Viewer to be able to
-find the media file.
+    find the media file.
 
 .. image:: images/version_fields.png
 
