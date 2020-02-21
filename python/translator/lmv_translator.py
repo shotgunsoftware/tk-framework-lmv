@@ -31,7 +31,7 @@ class LMVTranslator(object):
 
     def __init__(self, path):
         """
-        Class constructor
+        Class constructor.
 
         :param path: Path to the source file we want to perform operations on.
         """
