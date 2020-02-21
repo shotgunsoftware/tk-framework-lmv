@@ -80,7 +80,9 @@ class LMVTranslator(object):
         if self.output_directory is None:
             # generate all the files and folders needed for the translation
             self.__output_directory = tempfile.mkdtemp(prefix="lmv_")
-        output_path = os.path.join(self.output_directory, os.path.basename(self.source_path))
+        output_path = os.path.join(
+            self.output_directory, os.path.basename(self.source_path)
+        )
 
         index_file_path = os.path.join(self.output_directory, "index.json")
         open(index_file_path, "w").close()
@@ -90,11 +92,7 @@ class LMVTranslator(object):
         shutil.copyfile(self.source_path, output_path)
 
         logger.debug("Running translation process")
-        cmd = [
-            translator_path,
-            index_file_path,
-            output_path
-        ]
+        cmd = [translator_path, index_file_path, output_path]
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         p_output, _ = p.communicate()
 
@@ -114,7 +112,9 @@ class LMVTranslator(object):
         """
 
         if not self.output_directory or not os.path.isdir(self.output_directory):
-            raise Exception("Couldn't package the LMV files: no file seems to have been created")
+            raise Exception(
+                "Couldn't package the LMV files: no file seems to have been created"
+            )
 
         output_dir_path = os.path.join(self.output_directory, "output")
 
@@ -122,9 +122,14 @@ class LMVTranslator(object):
         if svf_file_name:
             logger.debug("Renaming SVF file")
             source_path = self.__get_svf_path()
-            target_path = os.path.join(output_dir_path, "1", "{}.svf".format(svf_file_name))
+            target_path = os.path.join(
+                output_dir_path, "1", "{}.svf".format(svf_file_name)
+            )
             if os.path.isfile(target_path):
-                raise Exception("Couldn't rename svf file: target path %s already exists" % target_path)
+                raise Exception(
+                    "Couldn't rename svf file: target path %s already exists"
+                    % target_path
+                )
             os.rename(source_path, target_path)
             self.__svf_path = target_path
         else:
@@ -138,7 +143,7 @@ class LMVTranslator(object):
         zip_path = shutil.make_archive(
             base_name=os.path.join(self.output_directory, svf_file_name),
             format="zip",
-            root_dir=output_dir_path
+            root_dir=output_dir_path,
         )
 
         return zip_path, thumbnail_path
@@ -153,7 +158,9 @@ class LMVTranslator(object):
         """
 
         if not self.output_directory or not os.path.isdir(self.output_directory):
-            raise Exception("Couldn't extract thumbnails from LMV: no file seems to have been created")
+            raise Exception(
+                "Couldn't extract thumbnails from LMV: no file seems to have been created"
+            )
 
         output_dir_path = os.path.join(self.output_directory, "output")
         svf_file_name = os.path.splitext(os.path.basename(self.__get_svf_path()))[0]
@@ -171,7 +178,9 @@ class LMVTranslator(object):
             images_dir_path = os.path.join(output_dir_path, "images")
             if not os.path.exists(images_dir_path):
                 os.makedirs(images_dir_path)
-            tmp_image_path = os.path.join(images_dir_path, "{}.jpg".format(svf_file_name))
+            tmp_image_path = os.path.join(
+                images_dir_path, "{}.jpg".format(svf_file_name)
+            )
             with open(tmp_image_path, "wb") as fp:
                 fp.write(thumbnail_data)
 
@@ -207,7 +216,9 @@ class LMVTranslator(object):
         """
 
         if not self.__svf_path:
-            svf_file_name = "{}.svf".format(os.path.splitext(os.path.basename(self.source_path))[0])
+            svf_file_name = "{}.svf".format(
+                os.path.splitext(os.path.basename(self.source_path))[0]
+            )
             svf_path = os.path.join(self.output_directory, "output", "1", svf_file_name)
             if not os.path.isfile(svf_path):
                 raise Exception("Couldn't find svf file %s" % svf_path)
@@ -224,8 +235,13 @@ class LMVTranslator(object):
 
         # get the command line to extract data from the thumbnail and execute it
         logger.debug("Running thumbnail extractor process")
-        thumbnail_extractor_cmd, output_path = self.__get_thumbnail_extractor_command_line()
-        p = subprocess.Popen(thumbnail_extractor_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        (
+            thumbnail_extractor_cmd,
+            output_path,
+        ) = self.__get_thumbnail_extractor_command_line()
+        p = subprocess.Popen(
+            thumbnail_extractor_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
         p_output, _ = p.communicate()
 
         if p.returncode != 0:
@@ -276,11 +292,15 @@ class LMVTranslator(object):
             # if we are running this code inside Alias, use the Alias extractor instead of the one shipped with this
             # framework to be sure to use the latest version
             if current_engine.name == "tk-alias":
-                software_extractor = os.path.join(current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe")
+                software_extractor = os.path.join(
+                    current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe"
+                )
                 if os.path.exists(software_extractor):
                     return software_extractor
                 else:
-                    return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
+                    return os.path.join(
+                        root_dir, "LMVExtractor", "atf_lmv_extractor.exe"
+                    )
             else:
                 return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
@@ -312,7 +332,7 @@ class LMVTranslator(object):
                     os.path.dirname(svf_path),
                     "..",
                     "..",
-                    "images_{}".format(os.path.splitext(os.path.basename(svf_path))[0])
+                    "images_{}".format(os.path.splitext(os.path.basename(svf_path))[0]),
                 )
             )
             # be sure the tmp directory is created
@@ -324,22 +344,26 @@ class LMVTranslator(object):
                 "-outpath=%s" % tmp_dir,
                 "-size=1280",
                 "-depth=2",
-                "-passes=4"
+                "-passes=4",
             ]
             output_path = os.path.join(tmp_dir, "01_thumb_1280x1280.png")
 
         # VRED case
         elif ext in self.VRED_VALID_EXTENSION:
-            output_path = tempfile.NamedTemporaryFile(suffix=".jpg", prefix="sgtk_thumb", delete=False).name
+            output_path = tempfile.NamedTemporaryFile(
+                suffix=".jpg", prefix="sgtk_thumb", delete=False
+            ).name
             cmd = [
                 os.path.join(root_dir, "VREDThumbnailExtractor", "extractMetaData.exe"),
                 "--icv",
                 output_path,
-                self.source_path
+                self.source_path,
             ]
 
         else:
-            raise ValueError("Couldn't find thumbnail extractor path: unknown file extension")
+            raise ValueError(
+                "Couldn't find thumbnail extractor path: unknown file extension"
+            )
 
         return cmd, output_path
 
@@ -352,9 +376,6 @@ class LMVTranslator(object):
         """
         return os.path.normpath(
             os.path.join(
-                os.path.dirname(os.path.abspath(__file__)),
-                "..",
-                "..",
-                "resources"
+                os.path.dirname(os.path.abspath(__file__)), "..", "..", "resources"
             )
         )
