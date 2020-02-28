@@ -321,7 +321,7 @@ class LMVTranslator(object):
             - The thumbnail output path
         """
 
-        root_dir = self.__get_resources_folder_path
+        root_dir = self.__get_resources_folder_path()
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
