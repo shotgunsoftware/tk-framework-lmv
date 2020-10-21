@@ -261,7 +261,7 @@ class LMVTranslator(object):
 
         thumbnail_data = []
 
-        with open(self.source_path) as fp:
+        with open(self.source_path, "rb") as fp:
             line = fp.readline()
             while line and line != "thumbnail JPEG\n":
                 line = fp.readline()
