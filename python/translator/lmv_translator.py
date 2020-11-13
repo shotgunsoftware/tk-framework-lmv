@@ -304,7 +304,7 @@ class LMVTranslator(object):
         root_dir = self.__get_resources_folder_path()
         _, ext = os.path.splitext(self.source_path)
 
-        if not use_framework_extractor:
+        if use_framework_extractor:
             # Use the extractor shipped with the framework
             return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
