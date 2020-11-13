@@ -13,6 +13,8 @@ import sgtk
 import shutil
 import subprocess
 import tempfile
+import time
+
 
 logger = sgtk.platform.get_logger(__name__)
 
@@ -63,7 +65,7 @@ class LMVTranslator(object):
     ################################################################################################
     # public methods
 
-    def translate(self, output_directory=None):
+    def translate(self, output_directory=None, use_framework_extractor=False):
         """
         Run the translation to convert the source file to a bunch of files needed by the 3D Viewer.
 
@@ -75,7 +77,10 @@ class LMVTranslator(object):
         self.__output_directory = output_directory
 
         # get the translator path
-        translator_path = self.__get_translator_path()
+        translator_path = self.__get_translator_path(use_framework_extractor)
+        logger.debug(
+            "translator_path={}".format(translator_path)
+        )
 
         if self.output_directory is None:
             # generate all the files and folders needed for the translation
@@ -89,12 +94,25 @@ class LMVTranslator(object):
 
         # copy the source file to the temporary location and run the translation
         logger.debug("Copying source file to temporary folder")
+        t1 = time.time()
         shutil.copyfile(self.source_path, output_path)
+        t2 = time.time()
+        msg = "TIMEOP shutil.copyfile: ELAPSED TIME={}".format(t2 - t1)
+        print(msg)
+        logger.debug(msg)
 
         logger.debug("Running translation process")
         cmd = [translator_path, index_file_path, output_path]
+        print("CMD {}".format(cmd))
+        logger.debug("CMD {}".format(cmd))
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
+        t1 = time.time()
         p_output, _ = p.communicate()
+        t2 = time.time()
+        msg = "TIMEOP p.communicate: ELAPSED TIME={}".format(t2 - t1)
+        print(msg)
+        logger.debug(msg)
 
         if p.returncode != 0:
             raise Exception(p_output)
@@ -274,7 +292,7 @@ class LMVTranslator(object):
 
         return base64.b64decode("".join(thumbnail_data))
 
-    def __get_translator_path(self):
+    def __get_translator_path(self, use_framework_extractor=False):
         """
         Get the path to the translator we have to use according to the file extension
 
@@ -285,6 +303,10 @@ class LMVTranslator(object):
 
         root_dir = self.__get_resources_folder_path()
         _, ext = os.path.splitext(self.source_path)
+
+        if not use_framework_extractor:
+            # Use the extractor shipped with the framework
+            return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
         # Alias case
         if ext in self.ALIAS_VALID_EXTENSION:
