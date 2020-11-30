@@ -63,19 +63,25 @@ class LMVTranslator(object):
     ################################################################################################
     # public methods
 
-    def translate(self, output_directory=None):
+    def translate(self, output_directory=None, use_framework_translator=False):
         """
         Run the translation to convert the source file to a bunch of files needed by the 3D Viewer.
 
         :param output_directory: Path to the directory we want to translate the file to. If no path is supplied, a
                                 temporary one will be used
+        :param use_framework_translator: True will use the translator shipped with the framework, else
+                                         False (default) will use a translator based on the type of file to
+                                         translate and the current engine running.
         :returns: The path to the directory where all the translated files have been written.
         """
 
         self.__output_directory = output_directory
 
         # get the translator path
-        translator_path = self.__get_translator_path()
+        translator_path = self.__get_translator_path(use_framework_translator)
+        logger.debug(
+            "Using LMV Tanslator: {translator}".format(translator=translator_path)
+        )
 
         if self.output_directory is None:
             # generate all the files and folders needed for the translation
@@ -274,43 +280,48 @@ class LMVTranslator(object):
 
         return base64.b64decode("".join(thumbnail_data))
 
-    def __get_translator_path(self):
+    def __get_translator_path(self, use_framework_translator=False):
         """
         Get the path to the translator we have to use according to the file extension
 
+        :param use_framework_translator: True will get the translator path to the executable shipped with the
+                                         framework, else False (default) will first look for the translator based
+                                         on the file type and current engine that is running.
         :returns: The path to the translator
         """
 
-        current_engine = sgtk.platform.current_engine()
+        if use_framework_translator:
+            # Don't try to determine the best translator to use, just use the one shipped with this framework
+            root_dir = self.__get_resources_folder_path()
+            return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
-        root_dir = self.__get_resources_folder_path()
+        # Determine which translator to use based on the file to be translated and the current engine.
         _, ext = os.path.splitext(self.source_path)
 
         # Alias case
         if ext in self.ALIAS_VALID_EXTENSION:
 
-            # if we are running this code inside Alias, use the Alias extractor instead of the one shipped with this
+            # If we are running this code inside Alias, use the Alias extractor instead of the one shipped with this
             # framework to be sure to use the latest version
+            current_engine = sgtk.platform.current_engine()
             if current_engine.name == "tk-alias":
                 software_extractor = os.path.join(
                     current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe"
                 )
                 if os.path.exists(software_extractor):
                     return software_extractor
-                else:
-                    return os.path.join(
-                        root_dir, "LMVExtractor", "atf_lmv_extractor.exe"
-                    )
-            else:
-                return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
+
+            # Fallback to the translator shipped with this framework
+            root_dir = self.__get_resources_folder_path()
+            return os.path.join(root_dir, "LMVExtractor", "atf_lmv_extractor.exe")
 
         # VRED case
-        elif ext in self.VRED_VALID_EXTENSION:
+        if ext in self.VRED_VALID_EXTENSION:
+            root_dir = self.__get_resources_folder_path()
             return os.path.join(root_dir, "LMV", "viewing-vpb-lmv.exe")
 
-        # other file formats
-        else:
-            raise ValueError("Couldn't find translator path: unknown file extension")
+        # Other file formats not currently supported
+        raise ValueError("Couldn't find translator path: unknown file extension")
 
     def __get_thumbnail_extractor_command_line(self):
         """
