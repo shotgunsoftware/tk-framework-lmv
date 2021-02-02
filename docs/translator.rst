@@ -1,16 +1,16 @@
 LMV Translation
-######################################
+###############
 
 .. currentmodule:: translator
 
 Introduction
-======================================
+============
 
-The :class:`LMVTranslator` class helps you translating files to a file format readable by Shotgun
-3D Viewer. It also offers the possibility to extract thumbnail from the source file.
+The :class:`LMVTranslator` class helps you translate files to a file format readable by Shotgun
+3D Viewer. It also offers the possibility to extract a thumbnail from the source file.
 
 Sample Code: Upload file to Shotgun Version
---------------------------------------------
+-------------------------------------------
 Here is a simple piece of code to create the zip file which will be uploaded to Shotgun in order
 to be read by the 3D Viewer::
 
