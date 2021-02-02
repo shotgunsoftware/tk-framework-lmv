@@ -1,25 +1,26 @@
 The Shotgun LMV Framework
 ######################################
 
-With the introduction of the 3D Viewer inside Shotgun, we have now the possibility to review
-3D files directly inside the web interface. Unfortunately, reviewing a 3D file is not so simple:
-we cannot upload the file itself but a zip file containing all the dependencies needed by the
-viewer.
+With the introduction of the 3D Viewer inside Shotgun, we now have the possibility to review
+3D files directly inside the web interface.
 
-The Shotgun LMV Framework contains a collection of helpers and tools to make it easy and
-painless to build this zip package.
+The Shotgun LMV Framework contains a collection of libraries and tools to make it possible
+to build the zip package required to view the 3D model in the web interface.
 
-Once the zip package is built, it must be uploaded to Shotgun using the ``sg_uploaded_movie``
-field and the ``sg_translation_type`` must be set to **LMV**.
+This functionality is currently used by the Autodesk Alias and Autodesk VRED Shotgun Integrations
+to support Design Studio workflows.
+
+Once the zip package is built, the ``sg_translation_type`` field on the Version must be set to **LMV**.
+The zip file must then be uploaded to Shotgun using the ``sg_uploaded_movie`` field on the Version.
 
 .. warning::
-    The zip file should be named after the Version ID for the 3D Viewer to be able to
+    Currently the zip file and its' contents must be named with the Version ID for the 3D Viewer to be able to
     find the media file.
 
 .. image:: images/version_fields.png
 
-.. warning::
-    For now, only these file formats are compatible with the LMV translation:
+.. note::
+    Currently these file formats are compatible with the LMV translation:
         * .wire
         * .igs
         * .CATPart
