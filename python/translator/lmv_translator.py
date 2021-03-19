@@ -201,13 +201,13 @@ class LMVTranslator(object):
 
         _, ext = os.path.splitext(self.source_path)
 
-        # if the source file is a wire file, we can try to directly read the SVF file to get the thumbnail data
+        # if the source file is a wire file, we can try to directly read the wire file to get the thumbnail data
         if ext == ".wire":
             thumbnail_data = self.__get_thumbnail_data_from_wire_file()
-            if not thumbnail_data:
-                thumbnail_data = self.__get_thumbnail_data_from_command_line()
-        else:
-            thumbnail_data = self.__get_thumbnail_data_from_command_line()
+        #     if not thumbnail_data:
+        #         thumbnail_data = self.__get_thumbnail_data_from_command_line()
+        # else:
+        #     thumbnail_data = self.__get_thumbnail_data_from_command_line()
 
         return thumbnail_data
 
@@ -278,6 +278,7 @@ class LMVTranslator(object):
                 thumbnail_data.append(line.replace("Th ", ""))
                 line = fp.readline()
 
+        # return base64.b64decode("".join(thumbnail_data))
         return base64.b64decode("".join(thumbnail_data))
 
     def __get_translator_path(self, use_framework_translator=False):
