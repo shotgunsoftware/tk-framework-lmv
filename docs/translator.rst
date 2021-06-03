@@ -6,17 +6,17 @@ LMV Translation
 Introduction
 ============
 
-The :class:`LMVTranslator` class helps you translate files to a file format readable by Shotgun
+The :class:`LMVTranslator` class helps you translate files to a file format readable by ShotGrid
 3D Viewer. It also offers the possibility to extract a thumbnail from the source file.
 
-Sample Code: Upload file to Shotgun Version
+Sample Code: Upload file to ShotGrid Version
 -------------------------------------------
-Here is a simple piece of code to create the zip file which will be uploaded to Shotgun in order
+Here is a simple piece of code to create the zip file which will be uploaded to ShotGrid in order
 to be read by the 3D Viewer::
 
     # source_path = "/path/to/file.wire"
 
-    # here we assume that the version is already created in Shotgun and we have it ID
+    # here we assume that the version is already created in ShotGrid and we have it ID
     version_id = 1234
 
     # create an instance of LMVExtractor, translate the file and package the output files
