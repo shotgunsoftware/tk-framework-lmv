@@ -19,7 +19,7 @@ logger = sgtk.platform.get_logger(__name__)
 
 class LMVTranslator(object):
     """
-    A LMVTranslator instance is used to translate a source file to something readable by Shotgun 3D Viewer.
+    A LMVTranslator instance is used to translate a source file to something readable by ShotGrid 3D Viewer.
     It also offers the possibility to extract a thumbnail from this source file.
     """
 
