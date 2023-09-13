@@ -13,8 +13,8 @@ This repository is a part of the ShotGrid Pipeline Toolkit.
 
 - For more information about this app and for release notes, *see the wiki section*.
 <!-- - For API Reference, see https://developer.shotgridsoftware.com/tk-framework-lmv -->
-- For general information and documentation, click here: https://developer.shotgridsoftware.com/d587be80/?title=Integrations+User+Guide
+- For general information and documentation, click here: https://help.autodesk.com/view/SGDEV/ENU/?contextId=SA_INTEGRATIONS_USER_GUIDE
 - For information about ShotGrid in general, click here: https://help.autodesk.com/view/SGSUB/ENU
 
 ## Have a Question?
-Don't hesitate to contact us! You can find us at developer.shotgridsoftware.com
+Don't hesitate to contact us! You can find us at https://www.autodesk.com/support/contact-support
