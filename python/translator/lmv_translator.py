@@ -23,6 +23,9 @@ class LMVTranslator(object):
     It also offers the possibility to extract a thumbnail from this source file.
     """
 
+    # The Alias thumbnail extractor executable
+    ALIAS_THUMBNAIL_EXTRACTOR = "thumbnail.exe"
+
     # file extensions that can be used by Alias tools to extract data
     ALIAS_VALID_EXTENSION = [".wire", ".CATPart", ".jt", ".igs", ".stp", ".fbx"]
 
@@ -340,27 +343,20 @@ class LMVTranslator(object):
 
         # Alias case
         if ext in self.ALIAS_VALID_EXTENSION:
-            svf_path = self.__get_svf_path()
-            tmp_dir = os.path.normpath(
-                os.path.join(
-                    os.path.dirname(svf_path),
-                    "..",
-                    "..",
-                    "images_{}".format(os.path.splitext(os.path.basename(svf_path))[0]),
-                )
-            )
-            # be sure the tmp directory is created
-            if not os.path.exists(tmp_dir):
-                os.makedirs(tmp_dir)
+            thumbnail_extractor_path = self.__get_alias_thumbnail_extractor_path()
+            if not thumbnail_extractor_path:
+                raise ValueError("Failed to find Alias thumbnail extractor.")
+
+            output_path = tempfile.NamedTemporaryFile(
+                suffix=".jpg", prefix="sgtk_thumb", delete=False
+            ).name
+
             cmd = [
-                os.path.join(root_dir, "SVFThumbnailExtractor", "svf_thumb.exe"),
-                svf_path,
-                "-outpath=%s" % tmp_dir,
-                "-size=1280",
-                "-depth=2",
-                "-passes=4",
+                thumbnail_extractor_path,
+                "x",
+                self.source_path,
+                output_path,
             ]
-            output_path = os.path.join(tmp_dir, "01_thumb_1280x1280.png")
 
         # VRED case
         elif ext in self.VRED_VALID_EXTENSION:
@@ -381,6 +377,33 @@ class LMVTranslator(object):
 
         return cmd, output_path
 
+    def __get_alias_thumbnail_extractor_path(self):
+        """
+        Get the Alias bin folder path.
+
+        :return: The path to the Alias bin folder
+        :rtype: path
+        """
+
+        engine_name = "tk-alias"
+        bundle = sgtk.platform.current_bundle()
+        launcher = sgtk.platform.create_engine_launcher(
+            bundle.sgtk, bundle.context, engine_name
+        )
+        software_versions = launcher.scan_software()
+        if not software_versions:
+            return None
+
+        # Find thumbnail extractor, iterating over latest Alias versions first
+        for software_version in reversed(software_versions):
+            alias_exe_path = software_version.path
+            bin_path = os.path.dirname(alias_exe_path)
+            thumbnail_extractor_path = os.path.join(bin_path, self.ALIAS_THUMBNAIL_EXTRACTOR)
+            if os.path.exists(thumbnail_extractor_path):
+                return thumbnail_extractor_path
+        
+        return None
+
     @staticmethod
     def __get_resources_folder_path():
         """
@@ -393,3 +416,4 @@ class LMVTranslator(object):
                 os.path.dirname(os.path.abspath(__file__)), "..", "..", "resources"
             )
         )
+    
