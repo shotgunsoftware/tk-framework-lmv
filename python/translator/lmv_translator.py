@@ -107,7 +107,7 @@ class LMVTranslator(object):
 
         return self.output_directory
 
-    def package(self, svf_file_name=None, thumbnail_path=None):
+    def package(self, svf_file_name=None, thumbnail_path=None, include_thumbnail=True):
         """
         Package all the translated files into a zip file and extract the LMV thumbnail if needed
 
@@ -141,8 +141,11 @@ class LMVTranslator(object):
         else:
             svf_file_name = os.path.splitext(os.path.basename(self.source_path)[0])
 
-        # extract the thumbnails
-        thumbnail_path = self.extract_thumbnail(thumbnail_path)
+        if include_thumbnail:
+            # extract the thumbnails
+            thumbnail_path = self.extract_thumbnail(thumbnail_path)
+        else:
+            thumbnail_path = None
 
         # zip the package
         logger.debug("Making archive from LMV files")
