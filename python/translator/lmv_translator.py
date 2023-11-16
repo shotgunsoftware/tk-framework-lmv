@@ -198,7 +198,7 @@ class LMVTranslator(object):
             with open(thumbnail_source_path, "rb") as fp:
                 thumbnail_data = fp.read()
         else:
-            thumbnail_data = self.get_thumbnail_data()
+            thumbnail_data = self.__get_thumbnail_data_from_command_line()
 
         # write the thumbnails on disk
         logger.debug("Writing thumbnail on disk")
@@ -213,25 +213,6 @@ class LMVTranslator(object):
                 fp.write(thumbnail_data)
 
             return tmp_image_path
-
-    def get_thumbnail_data(self):
-        """
-        Get the thumbnail binary data
-
-        :return: The thumbnail binary data
-        """
-
-        _, ext = os.path.splitext(self.source_path)
-
-        # if the source file is a wire file, we can try to directly read the SVF file to get the thumbnail data
-        if ext == ".wire":
-            thumbnail_data = self.__get_thumbnail_data_from_wire_file()
-            if not thumbnail_data:
-                thumbnail_data = self.__get_thumbnail_data_from_command_line()
-        else:
-            thumbnail_data = self.__get_thumbnail_data_from_command_line()
-
-        return thumbnail_data
 
     ########################################################################################
     # private methods
@@ -279,28 +260,6 @@ class LMVTranslator(object):
             thumbnail_data = fp.read()
 
         return thumbnail_data
-
-    def __get_thumbnail_data_from_wire_file(self):
-        """
-        Read the source file data to extract the thumbnail binary data
-
-        :return: The thumbnail binary data
-        """
-
-        thumbnail_data = []
-
-        with open(self.source_path, "rb") as fp:
-            line = fp.readline()
-            while line and line != "thumbnail JPEG\n":
-                line = fp.readline()
-            if not line:
-                return thumbnail_data
-            line = fp.readline()
-            while line != "thumbnail end\n":
-                thumbnail_data.append(line.replace("Th ", ""))
-                line = fp.readline()
-
-        return base64.b64decode("".join(thumbnail_data))
 
     def __get_translator_path(self, use_framework_translator=False):
         """
