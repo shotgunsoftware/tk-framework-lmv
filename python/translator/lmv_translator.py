@@ -43,6 +43,22 @@ class LMVTranslator(object):
         self.__svf_path = None
 
     ################################################################################################
+    # static methods
+
+    @staticmethod
+    def __get_resources_folder_path():
+        """
+        Get the resources folder path of the current framework
+
+        :return: The path to the resources folder
+        """
+        return os.path.normpath(
+            os.path.join(
+                os.path.dirname(os.path.abspath(__file__)), "..", "..", "resources"
+            )
+        )
+    
+    ################################################################################################
     # properties
 
     @property
@@ -403,17 +419,3 @@ class LMVTranslator(object):
                 return thumbnail_extractor_path
         
         return None
-
-    @staticmethod
-    def __get_resources_folder_path():
-        """
-        Get the resources folder path of the current framework
-
-        :return: The path to the resources folder
-        """
-        return os.path.normpath(
-            os.path.join(
-                os.path.dirname(os.path.abspath(__file__)), "..", "..", "resources"
-            )
-        )
-    
