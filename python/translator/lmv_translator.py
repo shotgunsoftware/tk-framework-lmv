@@ -278,13 +278,12 @@ class LMVTranslator(object):
 
         # Determine which translator to use based on the file to be translated and the current engine.
         _, ext = os.path.splitext(self.source_path)
+        current_engine = sgtk.platform.current_engine()
 
         # Alias case
         if ext in self.ALIAS_VALID_EXTENSION:
-
             # If we are running this code inside Alias, use the Alias extractor instead of the one shipped with this
             # framework to be sure to use the latest version
-            current_engine = sgtk.platform.current_engine()
             if current_engine.name == "tk-alias":
                 software_extractor = os.path.join(
                     current_engine.alias_bindir, "LMVExtractor", "atf_lmv_extractor.exe"
@@ -298,6 +297,15 @@ class LMVTranslator(object):
 
         # VRED case
         if ext in self.VRED_VALID_EXTENSION:
+            # If we are running this code inside VRED, use the VRED extractor instead of the one shipped with this
+            # framework to be sure to use the latest version
+            if current_engine.name == "tk-vred":
+                software_extractor = os.path.join(
+                    current_engine.alias_bindir, "LMV", "viewing-vpb-lmv.exe"
+                )
+                if os.path.exists(software_extractor):
+                    return software_extractor
+
             root_dir = self.__get_resources_folder_path()
             return os.path.join(root_dir, "LMV", "viewing-vpb-lmv.exe")
 
