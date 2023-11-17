@@ -238,7 +238,9 @@ class LMVTranslator:
         if not translator_engine:
             raise Exception("LMV translation does not support file type: {ext}")
 
-        translator_relative_path = LMVTranslator.get_translator_relative_paths().get(translator_engine)
+        translator_relative_path = LMVTranslator.get_translator_relative_paths().get(
+            translator_engine
+        )
         if not translator_relative_path:
             raise Exception(
                 "Mising translator information for engine: {translator_engine}"

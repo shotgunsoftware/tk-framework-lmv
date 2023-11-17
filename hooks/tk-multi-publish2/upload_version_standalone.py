@@ -32,6 +32,11 @@ class UploadVersionPlugin(HookBaseClass):
         return os.path.join(self.disk_location, "icons", "review.png")
 
     @property
+    def description(self):
+        """Return the description for the plugin."""
+        return "Translate file to LMV and upload to ShotGrid."
+
+    @property
     def settings(self):
         """
         Dictionary defining the settings that this plugin expects to recieve
@@ -134,10 +139,27 @@ class UploadVersionPlugin(HookBaseClass):
         :returns: True if item is valid, False otherwise.
         """
 
+        path = item.get_property("path")
+        if not path:
+            self.logger.error("No path found for item")
+            return False
+
         framework_lmv = self.load_framework("tk-framework-lmv_v0.x.x")
         if not framework_lmv:
             self.logger.error("Could not run LMV translation: missing ATF framework")
             return False
+
+        translator = framework_lmv.import_module("translator")
+        lmv_translator = translator.LMVTranslator(path, self.parent.sgtk, item.context)
+        lmv_translator_path = lmv_translator.get_translator_path()
+        if not lmv_translator_path:
+            self.logger.error(
+                "Missing translator for VRED. VRED must be installed locally to run LMV translation."
+            )
+            return False
+
+        # Store the translator in the item properties so it can be used later
+        item.properties["lmv_translator"] = lmv_translator
 
         return True
 
@@ -196,13 +218,8 @@ class UploadVersionPlugin(HookBaseClass):
             - The path to the temporary folder where the LMV files have been processed
         """
 
-        framework_lmv = self.load_framework("tk-framework-lmv_v0.x.x")
-        translator = framework_lmv.import_module("translator")
-
-        # translate the file to lmv
-        lmv_translator = translator.LMVTranslator(item.properties.path)
-        self.logger.info("Converting file to LMV")
-        lmv_translator.translate(use_framework_translator=True)
+        lmv_translator = item.properties["lmv_translator"]
+        lmv_translator.translate()
 
         # package it up
         self.logger.info("Packaging LMV files")
