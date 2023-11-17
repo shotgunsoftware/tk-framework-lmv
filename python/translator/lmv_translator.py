@@ -16,11 +16,6 @@ import tempfile
 
 logger = sgtk.platform.get_logger(__name__)
 
-import sys
-sys.path.append("C:\\python_libs")
-import ptvsd
-ptvsd.enable_attach()
-ptvsd.wait_for_attach()
 
 class LMVTranslator():
     """A class to translate files to be consumed by the ShotGrid 3D LMV Viewer."""
@@ -43,7 +38,6 @@ class LMVTranslator():
     def get_translator_by_file_type():
         """Return the engine to use for translationt the given file type."""
 
-        # FIXME make this a config setting
         return {
             ".wire": "tk-alias",
             ".CATPart": "tk-alias",
