@@ -35,8 +35,13 @@ class LMVTranslator:
     ################################################################################################
     # static methods
 
-    def get_translator_by_file_type():
-        """Return the engine to use for translationt the given file type."""
+    def get_translators_by_file_type():
+        """
+        Return a mapping of file types to translator engine.
+
+        The translator engine is the name of the engine that has the necessary tools to
+        translate the file type.
+        """
 
         return {
             ".wire": "tk-alias",
@@ -48,9 +53,9 @@ class LMVTranslator:
             ".vpb": "tk-vred",
         }
 
-    def get_translator_relative_path(engine_name):
+    def get_translator_relative_paths():
         """
-        Return the relative path to the translator executable for the given engine.
+        Return a mapping of translator engine to the relative path of the translator executable.
 
         The path return is relative to the engine's software executable location.
         """
@@ -59,50 +64,6 @@ class LMVTranslator:
             "tk-alias": os.path.join("LMVExtractor", "atf_lmv_extractor.exe"),
             "tk-vred": os.path.join("LMV", "viewing-vpb-lmv.exe"),
         }
-
-    def get_translator_path(self):
-        """
-        Get the path to the translator we have to use according to the file extension
-
-        :return: The path to the translator.
-        :rtype: str
-        """
-
-        _, ext = os.path.splitext(self.source_path)
-        current_engine = sgtk.platform.current_engine()
-
-        translator_engine = LMVTranslator.get_translator_by_file_type().get(ext)
-        if not translator_engine:
-            raise Exception("LMV translation does not support file type: {ext}")
-
-        translator_relative_path = LMVTranslator.get_translator_relative_path(
-            translator_engine
-        )
-        if not translator_relative_path:
-            raise Exception(
-                "Mising translator information for engine: {translator_engine}"
-            )
-
-        # First try a shortcut to get the translator executable path from the current engine
-        if current_engine.name == translator_engine and hasattr(
-            current_engine, "executable_path"
-        ):
-            root_dir = os.path.dirname(current_engine.executable_path)
-            translator_path = os.path.join(root_dir, translator_relative_path)
-            if os.path.exists(translator_path):
-                return translator_path
-
-        # Did not find translator from current engine. Check for local installations of
-        # the engine's DCC to find the translator
-        translator_path = LMVTranslator.find_translator_path(
-            self.__tk,
-            self.__context,
-            translator_engine,
-            translator_relative_path,
-        )
-        if not os.path.exists(translator_path):
-            raise Exception("Couldn't find translator for Alias.")
-        return translator_path
 
     def find_translator_path(tk, context, engine_name, translator_executable_path):
         """
@@ -273,13 +234,11 @@ class LMVTranslator:
         _, ext = os.path.splitext(self.source_path)
         current_engine = sgtk.platform.current_engine()
 
-        translator_engine = LMVTranslator.get_translator_by_file_type().get(ext)
+        translator_engine = LMVTranslator.get_translators_by_file_type().get(ext)
         if not translator_engine:
             raise Exception("LMV translation does not support file type: {ext}")
 
-        translator_relative_path = LMVTranslator.get_translator_relative_path(
-            translator_engine
-        )
+        translator_relative_path = LMVTranslator.get_translator_relative_paths().get(translator_engine)
         if not translator_relative_path:
             raise Exception(
                 "Mising translator information for engine: {translator_engine}"
