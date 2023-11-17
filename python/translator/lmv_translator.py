@@ -17,7 +17,7 @@ import tempfile
 logger = sgtk.platform.get_logger(__name__)
 
 
-class LMVTranslator():
+class LMVTranslator:
     """A class to translate files to be consumed by the ShotGrid 3D LMV Viewer."""
 
     def __init__(self, path, tk, context):
@@ -47,7 +47,7 @@ class LMVTranslator():
             ".fbx": "tk-alias",
             ".vpb": "tk-vred",
         }
-    
+
     def get_translator_relative_path(engine_name):
         """
         Return the relative path to the translator executable for the given engine.
@@ -74,13 +74,19 @@ class LMVTranslator():
         translator_engine = LMVTranslator.get_translator_by_file_type().get(ext)
         if not translator_engine:
             raise Exception("LMV translation does not support file type: {ext}")
-        
-        translator_relative_path = LMVTranslator.get_translator_relative_path(translator_engine)
+
+        translator_relative_path = LMVTranslator.get_translator_relative_path(
+            translator_engine
+        )
         if not translator_relative_path:
-            raise Exception("Mising translator information for engine: {translator_engine}")
+            raise Exception(
+                "Mising translator information for engine: {translator_engine}"
+            )
 
         # First try a shortcut to get the translator executable path from the current engine
-        if current_engine.name == translator_engine and hasattr(current_engine, "executable_path"):
+        if current_engine.name == translator_engine and hasattr(
+            current_engine, "executable_path"
+        ):
             root_dir = os.path.dirname(current_engine.executable_path)
             translator_path = os.path.join(root_dir, translator_relative_path)
             if os.path.exists(translator_path):
@@ -89,10 +95,13 @@ class LMVTranslator():
         # Did not find translator from current engine. Check for local installations of
         # the engine's DCC to find the translator
         translator_path = LMVTranslator.find_translator_path(
-            self.__tk, self.__context, translator_engine, translator_relative_path,
+            self.__tk,
+            self.__context,
+            translator_engine,
+            translator_relative_path,
         )
         if not os.path.exists(translator_path):
-            raise Exception("Couldn't find translator for Alias.")            
+            raise Exception("Couldn't find translator for Alias.")
         return translator_path
 
     def find_translator_path(tk, context, engine_name, translator_executable_path):
@@ -114,9 +123,7 @@ class LMVTranslator():
         """
 
         # Create the engine laucnher in order to discover the engine's software location
-        launcher = sgtk.platform.create_engine_launcher(
-            tk, context, engine_name
-        )
+        launcher = sgtk.platform.create_engine_launcher(tk, context, engine_name)
         software_versions = launcher.scan_software()
         if not software_versions:
             return None
@@ -269,13 +276,19 @@ class LMVTranslator():
         translator_engine = LMVTranslator.get_translator_by_file_type().get(ext)
         if not translator_engine:
             raise Exception("LMV translation does not support file type: {ext}")
-        
-        translator_relative_path = LMVTranslator.get_translator_relative_path(translator_engine)
+
+        translator_relative_path = LMVTranslator.get_translator_relative_path(
+            translator_engine
+        )
         if not translator_relative_path:
-            raise Exception("Mising translator information for engine: {translator_engine}")
+            raise Exception(
+                "Mising translator information for engine: {translator_engine}"
+            )
 
         # First try a shortcut to get the translator executable path from the current engine
-        if current_engine.name == translator_engine and hasattr(current_engine, "executable_path"):
+        if current_engine.name == translator_engine and hasattr(
+            current_engine, "executable_path"
+        ):
             root_dir = os.path.dirname(current_engine.executable_path)
             translator_path = os.path.join(root_dir, translator_relative_path)
             if os.path.exists(translator_path):
@@ -284,10 +297,13 @@ class LMVTranslator():
         # Did not find translator from current engine. Check for local installations of
         # the engine's DCC to find the translator
         translator_path = LMVTranslator.find_translator_path(
-            self.__tk, self.__context, translator_engine, translator_relative_path,
+            self.__tk,
+            self.__context,
+            translator_engine,
+            translator_relative_path,
         )
         if not os.path.exists(translator_path):
-            raise Exception("Couldn't find translator for Alias.")            
+            raise Exception("Couldn't find translator for Alias.")
         return translator_path
 
     ########################################################################################

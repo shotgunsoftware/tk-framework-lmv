@@ -184,7 +184,7 @@ class UploadVersionPlugin(HookBaseClass):
                 entity_id=item.properties["sg_version_data"]["id"],
                 path=thumbnail_path,
             )
-            
+
     def _translate_file_to_lmv(self, item):
         """
         Translate the current Alias file as an LMV package in order to upload it to ShotGrid as a 3D Version
@@ -211,4 +211,3 @@ class UploadVersionPlugin(HookBaseClass):
         )
 
         return package_path, lmv_translator.output_directory
-
