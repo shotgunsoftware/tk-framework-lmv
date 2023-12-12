@@ -32,6 +32,11 @@ class UploadVersionPlugin(HookBaseClass):
         return os.path.join(self.disk_location, "icons", "review.png")
 
     @property
+    def description(self):
+        """Return the description for the plugin."""
+        return "Translate file to LMV and upload to ShotGrid."
+
+    @property
     def settings(self):
         """
         Dictionary defining the settings that this plugin expects to recieve
@@ -134,10 +139,27 @@ class UploadVersionPlugin(HookBaseClass):
         :returns: True if item is valid, False otherwise.
         """
 
+        path = item.get_property("path")
+        if not path:
+            self.logger.error("No path found for item")
+            return False
+
         framework_lmv = self.load_framework("tk-framework-lmv_v0.x.x")
         if not framework_lmv:
             self.logger.error("Could not run LMV translation: missing ATF framework")
             return False
+
+        translator = framework_lmv.import_module("translator")
+        lmv_translator = translator.LMVTranslator(path, self.parent.sgtk, item.context)
+        lmv_translator_path = lmv_translator.get_translator_path()
+        if not lmv_translator_path:
+            self.logger.error(
+                "Missing translator for VRED. VRED must be installed locally to run LMV translation."
+            )
+            return False
+
+        # Store the translator in the item properties so it can be used later
+        item.properties["lmv_translator"] = lmv_translator
 
         return True
 
@@ -159,7 +181,6 @@ class UploadVersionPlugin(HookBaseClass):
             # translate the file to lmv and upload the corresponding package to the Version
             (
                 package_path,
-                thumbnail_path,
                 output_directory,
             ) = self._translate_file_to_lmv(item)
             self.logger.debug("Uploading LMV file to ShotGrid")
@@ -174,44 +195,17 @@ class UploadVersionPlugin(HookBaseClass):
                 path=package_path,
                 field_name="sg_uploaded_movie",
             )
-            # if the Version thumbnail is empty, update it with the newly created thumbnail
-            if not item.get_thumbnail_as_path() and thumbnail_path:
-                self.parent.shotgun.upload_thumbnail(
-                    entity_type="Version",
-                    entity_id=item.properties["sg_version_data"]["id"],
-                    path=thumbnail_path,
-                )
             # delete the temporary folder on disk
             self.logger.debug("Deleting temporary folder")
             shutil.rmtree(output_directory)
 
-        else:
-            thumbnail_path = item.get_thumbnail_as_path()
-            self.logger.debug("Using thumbnail image as Version media")
-            if thumbnail_path:
-                self.parent.shotgun.upload(
-                    entity_type="Version",
-                    entity_id=item.properties["sg_version_data"]["id"],
-                    path=thumbnail_path,
-                    field_name="sg_uploaded_movie",
-                )
-            else:
-                self.logger.debug("Converting file to LMV to extract thumbnails")
-                output_directory, thumbnail_path = self._get_thumbnail_from_lmv(item)
-                if thumbnail_path:
-                    self.parent.shotgun.upload(
-                        entity_type="Version",
-                        entity_id=item.properties["sg_version_data"]["id"],
-                        path=thumbnail_path,
-                        field_name="sg_uploaded_movie",
-                    )
-                    self.parent.shotgun.upload_thumbnail(
-                        entity_type="Version",
-                        entity_id=item.properties["sg_version_data"]["id"],
-                        path=thumbnail_path,
-                    )
-                self.logger.debug("Deleting temporary folder")
-                shutil.rmtree(output_directory)
+        thumbnail_path = item.get_thumbnail_as_path()
+        if thumbnail_path:
+            self.parent.shotgun.upload_thumbnail(
+                entity_type="Version",
+                entity_id=item.properties["sg_version_data"]["id"],
+                path=thumbnail_path,
+            )
 
     def _translate_file_to_lmv(self, item):
         """
@@ -224,59 +218,13 @@ class UploadVersionPlugin(HookBaseClass):
             - The path to the temporary folder where the LMV files have been processed
         """
 
-        framework_lmv = self.load_framework("tk-framework-lmv_v0.x.x")
-        translator = framework_lmv.import_module("translator")
-
-        # translate the file to lmv
-        lmv_translator = translator.LMVTranslator(item.properties.path)
-        self.logger.info("Converting file to LMV")
-        lmv_translator.translate(use_framework_translator=True)
+        lmv_translator = item.properties["lmv_translator"]
+        lmv_translator.translate()
 
         # package it up
         self.logger.info("Packaging LMV files")
-        package_path, thumbnail_path = lmv_translator.package(
+        package_path, _ = lmv_translator.package(
             svf_file_name=str(item.properties["sg_version_data"]["id"]),
-            thumbnail_path=item.get_thumbnail_as_path(),
         )
 
-        if not thumbnail_path and item.type_spec == "file.vred":
-            thumbnail_path = os.path.join(
-                self.disk_location, "icons", "no_preview_vred.png"
-            )
-
-        return package_path, thumbnail_path, lmv_translator.output_directory
-
-    def _get_thumbnail_from_lmv(self, item):
-        """
-        Extract the thumbnail from the source file, using the LMV conversion
-
-        :param item: Item to process
-        :returns:
-            - The path to the temporary folder where the LMV files have been processed
-            - The path to the LMV thumbnail
-        """
-
-        framework_lmv = self.load_framework("tk-framework-lmv_v0.x.x")
-        translator = framework_lmv.import_module("translator")
-
-        # translate the file to lmv
-        lmv_translator = translator.LMVTranslator(item.properties.path)
-        self.logger.info("Converting file to LMV")
-        lmv_translator.translate(use_framework_translator=True)
-
-        self.logger.info("Extracting thumbnails from LMV")
-        thumbnail_path = lmv_translator.extract_thumbnail()
-        if not thumbnail_path:
-            if item.type_spec == "file.vred":
-                self.logger.warning(
-                    "Couldn't retrieve thumbnail data from LMV. Version will use a default image."
-                )
-                thumbnail_path = os.path.join(
-                    self.disk_location, "icons", "no_preview_vred.png"
-                )
-            else:
-                self.logger.warning(
-                    "Couldn't retrieve thumbnail data from LMV. Version won't have any associated media"
-                )
-
-        return lmv_translator.output_directory, thumbnail_path
+        return package_path, lmv_translator.output_directory
