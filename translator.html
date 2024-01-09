@@ -1,56 +1,36 @@
 
 
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>LMV Translation &mdash; tk-framework-lmv v0.2.2 documentation</title>
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LMV Translation &mdash; tk-framework-lmv v1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
-  
-  
-  
-
-  
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="The ShotGrid LMV Framework" href="index.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-    <a href='http://developer.shotgridsoftware.com'>
+    <a href='http://developers.shotgridsoftware.com'>
     
         <img style='width: 191px;
                 height: 60px;
@@ -63,35 +43,20 @@
     
 
           
-            <a href="index.html" class="icon icon-home"> tk-framework-lmv
           
-
-          
+          <a href="index.html" class="icon icon-home">
+            tk-framework-lmv
           </a>
-
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
 
-          
-
-        </div>
-
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
     
-            
-            
-              
-            
-            
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LMV Translation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
@@ -99,13 +64,24 @@
 <li class="toctree-l3"><a class="reference internal" href="#sample-code-create-a-thumbnail-from-a-source-file">Sample Code: Create a thumbnail from a source file</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#lmvtranslator">LMVTranslator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lmvtranslator">LMVTranslator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#translator.LMVTranslator"><code class="docutils literal notranslate"><span class="pre">LMVTranslator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.get_translators_by_file_type"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.get_translators_by_file_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.get_translator_relative_paths"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.get_translator_relative_paths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.find_translator_path"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.find_translator_path()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.source_path"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.source_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.output_directory"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.output_directory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.translate"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.translate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.package"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.package()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#translator.LMVTranslator.get_translator_path"><code class="docutils literal notranslate"><span class="pre">LMVTranslator.get_translator_path()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
-            
-          
 
     <a href='genindex.html'>Alphabetic Index</a>
 
@@ -125,16 +101,22 @@
                              text-decoration: underline; }
     </style>
 
-    <b>tk-framework-lmv</b> v0.2.2.<br>
+    <b>tk-framework-lmv</b> v1.0.0.<br>
     
-        This documentation is part of the Shotgun Pipeline Toolkit.
+        This documentation is part of the ShotGrid Pipeline Toolkit.
     
     For more information, please visit
-    <a class=custom_post_menu href='https://developer.shotgridsoftware.com'>Shotgun Support</a>.
+    <a class=custom_post_menu href='https://developers.shotgridsoftware.com'>The ShotGrid developer portal.</a>.
     The code associated with this documentation can be found
     <a class=custom_post_menu href='https://github.com/shotgunsoftware/tk-framework-lmv'>here</a>.
 
     </div>
+    <style>
+        p.privacy_links { margin: 4px 0px;}
+    </style>
+    <p class="privacy_links"><a data-opt-in-preferences href="javascript:;">Privacy settings</a></p>
+    <p class="privacy_links"><a data-wat-linkname="manage-ccpa-settings-footer-link" href="javascript:;">Do not sell my personal information</a></p>
+    <p class="privacy_links"><a href="https://www.autodesk.com/company/legal-notices-trademarks/privacy-statement">Privacy/Cookies</a></p>
 
 
 
@@ -142,68 +124,33 @@
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">tk-framework-lmv</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="index.html">Docs</a> &raquo;</li>
-        
-      <li>LMV Translation</li>
-    
-    
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">LMV Translation</li>
       <li class="wy-breadcrumbs-aside">
-        
-            
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="lmv-translation">
-<h1>LMV Translation<a class="headerlink" href="#lmv-translation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="lmv-translation">
+<h1>LMV Translation<a class="headerlink" href="#lmv-translation" title="Permalink to this heading"></a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
 <p>The <a class="reference internal" href="#translator.LMVTranslator" title="translator.LMVTranslator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LMVTranslator</span></code></a> class helps you translate files to a file format readable by ShotGrid
 3D Viewer. It also offers the possibility to extract a thumbnail from the source file.</p>
-<div class="section" id="sample-code-upload-file-to-shotgrid-version">
-<h3>Sample Code: Upload file to ShotGrid Version<a class="headerlink" href="#sample-code-upload-file-to-shotgrid-version" title="Permalink to this headline">¶</a></h3>
+<section id="sample-code-upload-file-to-shotgrid-version">
+<h3>Sample Code: Upload file to ShotGrid Version<a class="headerlink" href="#sample-code-upload-file-to-shotgrid-version" title="Permalink to this heading"></a></h3>
 <p>Here is a simple piece of code to create the zip file which will be uploaded to ShotGrid in order
 to be read by the 3D Viewer:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># source_path = &quot;/path/to/file.wire&quot;</span>
@@ -224,9 +171,9 @@ to be read by the 3D Viewer:</p>
 <span class="n">sg</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;Version&quot;</span><span class="p">,</span> <span class="n">version_id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;sg_translation_type&quot;</span><span class="p">:</span> <span class="s2">&quot;LMV&quot;</span><span class="p">})</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="sample-code-create-a-thumbnail-from-a-source-file">
-<h3>Sample Code: Create a thumbnail from a source file<a class="headerlink" href="#sample-code-create-a-thumbnail-from-a-source-file" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="sample-code-create-a-thumbnail-from-a-source-file">
+<h3>Sample Code: Create a thumbnail from a source file<a class="headerlink" href="#sample-code-create-a-thumbnail-from-a-source-file" title="Permalink to this heading"></a></h3>
 <p>It’s also possible to extract a thumbnail from the source file using the LMV conversion:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># source_path = &quot;/path/to/file.wire&quot;</span>
 
@@ -238,189 +185,173 @@ to be read by the 3D Viewer:</p>
 <span class="n">thumbnail_path</span> <span class="o">=</span> <span class="n">lmv_extractor</span><span class="o">.</span><span class="n">extract_thumbnail</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="lmvtranslator">
-<h2>LMVTranslator<a class="headerlink" href="#lmvtranslator" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="translator.LMVTranslator">
-<em class="property">class </em><code class="descclassname">translator.</code><code class="descname">LMVTranslator</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#translator.LMVTranslator" title="Permalink to this definition">¶</a></dt>
-<dd><p>A LMVTranslator instance is used to translate a source file to something readable by ShotGrid 3D Viewer.
-It also offers the possibility to extract a thumbnail from this source file.</p>
+</section>
+</section>
+<section id="lmvtranslator">
+<h2>LMVTranslator<a class="headerlink" href="#lmvtranslator" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="translator.LMVTranslator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">translator.</span></span><span class="sig-name descname"><span class="pre">LMVTranslator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator" title="Permalink to this definition"></a></dt>
+<dd><p>A class to translate files to be consumed by the ShotGrid 3D LMV Viewer.</p>
 <p>Class constructor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> – Path to the source file we want to perform operations on.</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="translator.LMVTranslator.source_path">
-<code class="descname">source_path</code><a class="headerlink" href="#translator.LMVTranslator.source_path" title="Permalink to this definition">¶</a></dt>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> – Path to the source file we want to perform operations on.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.get_translators_by_file_type">
+<span class="sig-name descname"><span class="pre">get_translators_by_file_type</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.get_translators_by_file_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.get_translators_by_file_type" title="Permalink to this definition"></a></dt>
+<dd><p>Return a mapping of file types to translator engine.</p>
+<p>The translator engine is the name of the engine that has the necessary tools to
+translate the file type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.get_translator_relative_paths">
+<span class="sig-name descname"><span class="pre">get_translator_relative_paths</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.get_translator_relative_paths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.get_translator_relative_paths" title="Permalink to this definition"></a></dt>
+<dd><p>Return a mapping of translator engine to the relative path of the translator executable.</p>
+<p>The path return is relative to the engine’s software executable location.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.find_translator_path">
+<span class="sig-name descname"><span class="pre">find_translator_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translator_executable_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.find_translator_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.find_translator_path" title="Permalink to this definition"></a></dt>
+<dd><p>Find the translator executable path relative to the engine’s software location.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>context</strong> (<a class="reference external" href="https://developers.shotgridsoftware.com/tk-core/core.html#sgtk.Context" title="(in tk-core vv0.20.28)"><em>sgtk.Context</em></a>) – The Toolkit context used to create an engine launcher that can
+determine the engine software location.</p></li>
+<li><p><strong>engine_name</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the engine.</p></li>
+<li><p><strong>extractor_path</strong> (<a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The relative file path from the engine’s software location, to
+the thumbnail extractor executable.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The thumbnail extractor executable path relative to the engine’s software
+location.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="translator.LMVTranslator.source_path">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">source_path</span></span><a class="headerlink" href="#translator.LMVTranslator.source_path" title="Permalink to this definition"></a></dt>
 <dd><p>Path of the file used as source for all the translations.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The file path as a string</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The file path as a string</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="translator.LMVTranslator.output_directory">
-<code class="descname">output_directory</code><a class="headerlink" href="#translator.LMVTranslator.output_directory" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="translator.LMVTranslator.output_directory">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_directory</span></span><a class="headerlink" href="#translator.LMVTranslator.output_directory" title="Permalink to this definition"></a></dt>
 <dd><p>Path to the directory where all the translated files will be stored.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The directory path as a string</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The directory path as a string</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="translator.LMVTranslator.translate">
-<code class="descname">translate</code><span class="sig-paren">(</span><em>output_directory=None</em>, <em>use_framework_translator=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#translator.LMVTranslator.translate" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.translate">
+<span class="sig-name descname"><span class="pre">translate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_directory</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.translate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.translate" title="Permalink to this definition"></a></dt>
 <dd><p>Run the translation to convert the source file to a bunch of files needed by the 3D Viewer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>output_directory</strong> – Path to the directory we want to translate the file to. If no path is supplied, a
-temporary one will be used</li>
-<li><strong>use_framework_translator</strong> – True will use the translator shipped with the framework, else
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_directory</strong> – Path to the directory we want to translate the file to. If no path is supplied, a
+temporary one will be used</p></li>
+<li><p><strong>use_framework_translator</strong> – True will use the translator shipped with the framework, else
 False (default) will use a translator based on the type of file to
-translate and the current engine running.</li>
+translate and the current engine running.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The path to the directory where all the translated files have been written.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The path to the directory where all the translated files have been written.</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="translator.LMVTranslator.package">
-<code class="descname">package</code><span class="sig-paren">(</span><em>svf_file_name=None</em>, <em>thumbnail_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#translator.LMVTranslator.package" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.package">
+<span class="sig-name descname"><span class="pre">package</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">svf_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thumbnail_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.package"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.package" title="Permalink to this definition"></a></dt>
 <dd><p>Package all the translated files into a zip file and extract the LMV thumbnail if needed</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>svf_file_name</strong> – If supplied, rename the svf file according to the given name</li>
-<li><strong>thumbnail_path</strong> – If supplied, use this thumbnail as LMV thumbnail. Otherwise, try to extract the thumbnail
-from the source file</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>svf_file_name</strong> – If supplied, rename the svf file according to the given name</p></li>
+<li><p><strong>thumbnail_path</strong> – If supplied, use this thumbnail as LMV thumbnail. Otherwise, try to extract the thumbnail
+from the source file</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The path to the zip file and the path to the thumbnail shipped with the LMV file</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The path to the zip file and the path to the thumbnail shipped with the LMV file</p>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="translator.LMVTranslator.extract_thumbnail">
-<code class="descname">extract_thumbnail</code><span class="sig-paren">(</span><em>thumbnail_source_path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.extract_thumbnail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#translator.LMVTranslator.extract_thumbnail" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract the thumbnail from the source file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>thumbnail_source_path</strong> – Optional path to the thumbnail we want to use as source image. If no path is
-supplied by the user, try to extract the image from the source file</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The path to the LMV thumbnail</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="translator.LMVTranslator.get_thumbnail_data">
-<code class="descname">get_thumbnail_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.get_thumbnail_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#translator.LMVTranslator.get_thumbnail_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the thumbnail binary data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The thumbnail binary data</td>
-</tr>
-</tbody>
-</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="translator.LMVTranslator.get_translator_path">
+<span class="sig-name descname"><span class="pre">get_translator_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator.get_translator_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator.get_translator_path" title="Permalink to this definition"></a></dt>
+<dd><p>Get the path to the translator we have to use according to the file extension</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The path to the translator.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.9/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="index.html" class="btn btn-neutral float-left" title="The ShotGrid LMV Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="The ShotGrid LMV Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &copy; Copyright 2022, Autodesk
+    <p>&#169; Copyright 2024, Autodesk.</p>
+  </div>
 
-    </p>
-  </div> 
+   
 
 </footer>
-
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
-
-  
-  
-    
-  
  
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-2114792-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
+  <script type="text/javascript">
+    window.wafCCPAForceShow = true;
+    (function(a,b,c,d){
+      a='https://tags.tiqcdn.com/utag/autodesk/micro-basic/prod/utag.js';
+      b=document;c='script';d=b.createElement(c);d.src=a;d.type='text/java'+c;d.async=true;
+      a=b.getElementsByTagName(c)[0];a.parentNode.insertBefore(d,a);
+    })();
+  </script>
 
 
 </body>
