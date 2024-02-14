@@ -9,7 +9,7 @@
 
 
 ## Documentation
-This repository is a part of the Flow Production Tracking Toolkit.
+This repository is a part of the Flow Production Tracking.
 
 - For more information about this app and for release notes, *see the wiki section*.
 <!-- - For API Reference, see https://developer.shotgridsoftware.com/tk-framework-lmv -->
