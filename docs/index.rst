@@ -1,17 +1,17 @@
-The ShotGrid LMV Framework
-######################################
+The Flow Production Tracking LMV Framework
+##########################################
 
-With the introduction of the 3D Viewer inside ShotGrid, we now have the possibility to review
+With the introduction of the 3D Viewer inside Flow Production Tracking, we now have the possibility to review
 3D files directly inside the web interface.
 
-The ShotGrid LMV Framework contains a collection of libraries and tools to make it possible
+The Flow Production Tracking LMV Framework contains a collection of libraries and tools to make it possible
 to build the zip package required to view the 3D model in the web interface.
 
-This functionality is currently used by the Autodesk Alias and Autodesk VRED ShotGrid Integrations
+This functionality is currently used by the Autodesk Alias and Autodesk VRED Flow Production Tracking Integrations
 to support Design Studio workflows.
 
 Once the zip package is built, the ``sg_translation_type`` field on the Version must be set to **LMV**.
-The zip file must then be uploaded to ShotGrid using the ``sg_uploaded_movie`` field on the Version.
+The zip file must then be uploaded to Flow Production Tracking using the ``sg_uploaded_movie`` field on the Version.
 
 .. warning::
     Currently the zip file and its' contents must be named with the Version ID for the 3D Viewer to be able to

@@ -17,7 +17,7 @@ configuration:
 requires_shotgun_fields:
 
 # More verbose description of this item
-display_name: "ShotGrid LMV Framework"
+display_name: "Flow Production Tracking LMV Framework"
 description: "A Collection of utilities to simplify file conversion to LMV."
 
 # Required minimum versions for this item to run

@@ -18,7 +18,7 @@ logger = sgtk.platform.get_logger(__name__)
 
 
 class LMVTranslator:
-    """A class to translate files to be consumed by the ShotGrid 3D LMV Viewer."""
+    """A class to translate files to be consumed by the Flow Production Tracking 3D LMV Viewer."""
 
     def __init__(self, path, tk, context):
         """

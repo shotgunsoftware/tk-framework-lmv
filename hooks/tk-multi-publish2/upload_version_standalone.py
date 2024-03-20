@@ -16,7 +16,7 @@ HookBaseClass = sgtk.get_hook_baseclass()
 
 class UploadVersionPlugin(HookBaseClass):
     """
-    Plugin for sending quicktimes and images to ShotGrid for review.
+    Plugin for sending quicktimes and images to Flow Production Tracking for review.
     """
 
     @property
@@ -34,7 +34,7 @@ class UploadVersionPlugin(HookBaseClass):
     @property
     def description(self):
         """Return the description for the plugin."""
-        return "Translate file to LMV and upload to ShotGrid."
+        return "Translate file to LMV and upload to Flow Production Tracking."
 
     @property
     def settings(self):
@@ -68,7 +68,7 @@ class UploadVersionPlugin(HookBaseClass):
             "Upload": {
                 "type": "bool",
                 "default": False,
-                "description": "Upload content to ShotGrid?",
+                "description": "Upload content to Flow Production Tracking?",
             },
         }
 
@@ -172,7 +172,7 @@ class UploadVersionPlugin(HookBaseClass):
         :param item: Item to process
         """
 
-        # create the Version in ShotGrid
+        # create the Version in Flow Production Tracking
         super(UploadVersionPlugin, self).publish(settings, item)
 
         # generate the Version content: LMV file or simple 2D thumbnail
@@ -183,7 +183,7 @@ class UploadVersionPlugin(HookBaseClass):
                 package_path,
                 output_directory,
             ) = self._translate_file_to_lmv(item)
-            self.logger.debug("Uploading LMV file to ShotGrid")
+            self.logger.debug("Uploading LMV file to Flow Production Tracking")
             self.parent.shotgun.update(
                 entity_type="Version",
                 entity_id=item.properties["sg_version_data"]["id"],
@@ -209,7 +209,7 @@ class UploadVersionPlugin(HookBaseClass):
 
     def _translate_file_to_lmv(self, item):
         """
-        Translate the current Alias file as an LMV package in order to upload it to ShotGrid as a 3D Version
+        Translate the current Alias file as an LMV package in order to upload it to Flow Production Tracking as a 3D Version
 
         :param item: Item to process
         :returns:
