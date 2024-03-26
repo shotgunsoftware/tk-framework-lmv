@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LMV Translation &mdash; tk-framework-lmv v1.0.0 documentation</title>
+  <title>LMV Translation &mdash; tk-framework-lmv v1.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
       <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
@@ -22,7 +22,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="The ShotGrid LMV Framework" href="index.html" /> 
+    <link rel="prev" title="The Flow Production Tracking LMV Framework" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -60,7 +60,7 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">LMV Translation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#sample-code-upload-file-to-shotgrid-version">Sample Code: Upload file to ShotGrid Version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sample-code-upload-file-to-flow-production-tracking-version">Sample Code: Upload file to Flow Production Tracking Version</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sample-code-create-a-thumbnail-from-a-source-file">Sample Code: Create a thumbnail from a source file</a></li>
 </ul>
 </li>
@@ -101,7 +101,7 @@
                              text-decoration: underline; }
     </style>
 
-    <b>tk-framework-lmv</b> v1.0.0.<br>
+    <b>tk-framework-lmv</b> v1.1.0.<br>
     
         This documentation is part of the Flow Production Tracking.
     
@@ -147,15 +147,15 @@
 <h1>LMV Translation<a class="headerlink" href="#lmv-translation" title="Permalink to this heading"></a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading"></a></h2>
-<p>The <a class="reference internal" href="#translator.LMVTranslator" title="translator.LMVTranslator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LMVTranslator</span></code></a> class helps you translate files to a file format readable by ShotGrid
+<p>The <a class="reference internal" href="#translator.LMVTranslator" title="translator.LMVTranslator"><code class="xref py py-class docutils literal notranslate"><span class="pre">LMVTranslator</span></code></a> class helps you translate files to a file format readable by Flow Production Tracking
 3D Viewer. It also offers the possibility to extract a thumbnail from the source file.</p>
-<section id="sample-code-upload-file-to-shotgrid-version">
-<h3>Sample Code: Upload file to ShotGrid Version<a class="headerlink" href="#sample-code-upload-file-to-shotgrid-version" title="Permalink to this heading"></a></h3>
-<p>Here is a simple piece of code to create the zip file which will be uploaded to ShotGrid in order
+<section id="sample-code-upload-file-to-flow-production-tracking-version">
+<h3>Sample Code: Upload file to Flow Production Tracking Version<a class="headerlink" href="#sample-code-upload-file-to-flow-production-tracking-version" title="Permalink to this heading"></a></h3>
+<p>Here is a simple piece of code to create the zip file which will be uploaded to Flow Production Tracking in order
 to be read by the 3D Viewer:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># source_path = &quot;/path/to/file.wire&quot;</span>
 
-<span class="c1"># here we assume that the version is already created in ShotGrid and we have it ID</span>
+<span class="c1"># here we assume that the version is already created in Flow Production Tracking and we have it ID</span>
 <span class="n">version_id</span> <span class="o">=</span> <span class="mi">1234</span>
 
 <span class="c1"># create an instance of LMVExtractor, translate the file and package the output files</span>
@@ -192,7 +192,7 @@ to be read by the 3D Viewer:</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="translator.LMVTranslator">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">translator.</span></span><span class="sig-name descname"><span class="pre">LMVTranslator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/translator/lmv_translator.html#LMVTranslator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#translator.LMVTranslator" title="Permalink to this definition"></a></dt>
-<dd><p>A class to translate files to be consumed by the ShotGrid 3D LMV Viewer.</p>
+<dd><p>A class to translate files to be consumed by the Flow Production Tracking 3D LMV Viewer.</p>
 <p>Class constructor.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -321,7 +321,7 @@ from the source file</p></li>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="The ShotGrid LMV Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="The Flow Production Tracking LMV Framework" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
   <hr/>
