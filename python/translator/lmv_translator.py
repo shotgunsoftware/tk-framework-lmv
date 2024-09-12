@@ -158,7 +158,7 @@ class LMVTranslator:
         logger.debug("Copying source file to temporary folder")
         shutil.copyfile(self.source_path, output_path)
 
-        logger.debug("Running translation process")
+        logger.debug(f"Running translation process: {translator_path} {index_file_path} {output_path}")
         cmd = [translator_path, index_file_path, output_path]
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         p_output, _ = p.communicate()
