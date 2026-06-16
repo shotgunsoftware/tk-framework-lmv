@@ -23,6 +23,7 @@ description: "A Collection of utilities to simplify file conversion to LMV."
 # Required minimum versions for this item to run
 requires_shotgun_version:
 requires_core_version: "v0.18.45"
+minimum_python_version: "3.9"
 
 # the frameworks required to run this app
 frameworks:

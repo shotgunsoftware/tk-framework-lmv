@@ -69,7 +69,7 @@ class BasicSceneCollector(HookBaseClass):
         """
 
         # inherit the settings from the base publish plugin
-        base_file_info = super(BasicSceneCollector, self).common_file_info or {}
+        base_file_info = super().common_file_info or {}
 
         automotive_file_info = {
             "Wref File": {
@@ -126,6 +126,6 @@ class BasicSceneCollector(HookBaseClass):
 
         # supplied file name doesn't exist. return the default file.png image
         if not found_icon_path:
-            found_icon_path = super(BasicSceneCollector, self)._get_icon_path(icon_name)
+            found_icon_path = super()._get_icon_path(icon_name)
 
         return found_icon_path
