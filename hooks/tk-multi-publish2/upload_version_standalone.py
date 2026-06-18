@@ -56,7 +56,7 @@ class UploadVersionPlugin(HookBaseClass):
         part of its environment configuration.
         """
         # inherit the settings from the base publish plugin
-        base_settings = super(UploadVersionPlugin, self).settings or {}
+        base_settings = super().settings or {}
 
         # settings specific to this class
         upload_version_settings = {
@@ -173,7 +173,7 @@ class UploadVersionPlugin(HookBaseClass):
         """
 
         # create the Version in Flow Production Tracking
-        super(UploadVersionPlugin, self).publish(settings, item)
+        super().publish(settings, item)
 
         # generate the Version content: LMV file or simple 2D thumbnail
         if settings.get("3D Version").value is True:
